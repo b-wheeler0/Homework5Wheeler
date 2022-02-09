@@ -1,0 +1,99 @@
+---
+title: "SLR"
+author: "Brooke Wheeler"
+date: "1/26/2022"
+output:
+  word_document: default
+  pdf_document: default
+---
+
+```{r}
+library(tidyverse)
+getwd()
+House <- read.csv("../Data/HOME_SAlES.csv")
+attach(House)
+```
+# 1. Find correlation and covariance between house prices and house sizes. What do these values indicate?
+```{r}
+cor(SALES_PRICE, FINISHED_AREA)
+cov(SALES_PRICE, FINISHED_AREA)
+
+# The correlation value is closer to 1 than 0 meaning that linear relationship between sales price and house size is strong. The covariance value is positive, showing that as sales price increases so does house size and as house size increases so does sales price. 
+```
+
+# 2. Scatterplot
+```{r}
+plot(FINISHED_AREA, SALES_PRICE)
+```
+
+# 3. Find equation of least-squares regression line. Find regression coefficients. 
+```{r}
+#y first
+reg <- lm(SALES_PRICE ~ FINISHED_AREA, data = House)
+reg
+
+# y (hat)= -81.433 + .159
+```
+# 4. Plot regression line
+```{r}
+reg
+plot(FINISHED_AREA, SALES_PRICE)
+abline(reg, col = "blue")
+```
+
+## 5. Create a new plot that shows all predicted house prices, using new color for points
+```{r}
+reg
+plot(FINISHED_AREA, SALES_PRICE)
+abline(reg, col = "blue")
+
+Yhat <- predict(reg, x= FINISHED_AREA)
+
+points(FINISHED_AREA, Yhat, col="blue")
+```
+
+## 6. 	If the size of a house is 2000 square feet, what is the predicted house price?  Also, show predictions for houses that are 1500 and 3500 square feet.
+```{r}
+predict(reg, data.frame(FINISHED_AREA = 2000))
+
+# predicted house price for 2000 square feet is 236.4675 thousand $
+
+predict(reg, data.frame(FINISHED_AREA = 1500))
+predict(reg, data.frame(FINISHED_AREA = 3500))
+```
+
+## 7. Find values of all residuals
+```{r}
+resid(reg)
+```
+
+## 8. Look at the first house. Calc. the residual value
+```{r}
+predict(reg, data.frame(FINISHED_AREA = 3032))
+
+```
+
+## 9. One property we discussed is that the sum of the residuals is zero.  Find the sum of the residuals here and comment on the value that you obtain.
+```{r}
+sum(resid(reg))
+
+#The value I obtained is very very close to one which would make sense if the expected value is zero. 
+```
+
+## 10. 	Show the regression line passes through (X ̅,Y ̅).  Hint: First find the means and then predict the appropriate value.
+```{r}
+summary(House)
+# mean sales price = 277.9
+# mean finished area = 2261
+
+predict(reg, data.frame(FINISHED_AREA = 2261))
+# at x= 2261 y = 277.9535
+
+
+
+```
+
+
+
+
+

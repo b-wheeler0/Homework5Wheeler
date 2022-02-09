@@ -1,0 +1,105 @@
+---
+title: "hw_3"
+author: "Brooke Wheeler"
+date: "1/27/2022"
+output: pdf_document
+---
+
+```{r}
+library(tidyverse)
+library(ggplot2)
+```
+## 3. Regression parameters: intercept=200, slope=5
+### a. plot regression equation
+```{r}
+x<-seq(0,10)
+plot(x, 200+ 5*x , type = "l", ylab = "y")
+
+200+5*20
+200+5*10
+200+5*40
+```
+
+
+# Part 2: More properties of the LSRL
+## 6. When the residuals are weighted by the level of the predictor variable in the i^th trial, the sum is zero.
+```{r}
+mass_calories <- read.csv("Mass_Calorie_Data.csv")
+attach(mass_calories)
+
+# x=LBM y=rate
+reg <- lm(RATE ~ LBM, data = mass_calories)
+resid(reg)
+
+sum(LBM * resid(reg))
+```
+
+## 7. 	When the residuals are weighted by the predicted/ fitted value in the i^th trial, the sum is zero.
+```{r}
+reg <- lm(RATE ~ LBM, data = mass_calories)
+resid(reg)
+
+sum(predict(reg) * resid(reg))
+```
+
+## Part 3 Mini Project
+
+### 8. 
+```{r}
+gpa <- read.table("CH01PR19.txt")
+attach(gpa)
+# x= ACT scores y=gpa at end of freshman year
+```
+
+#### a. 	Obtain the least squares estimates of β_0  and β_1 and state the estimated regression function.
+```{r}
+gpa_reg <- lm(V1 ~ V2, data = gpa)
+gpa_reg
+
+# the intercept= 2.11405
+# the slope is .03883
+# yhat= 2.11405 + .03883x
+```
+#### b. Plot the estimated regression function and the data. Does the estimated regression function   appear to fit the data well?
+```{r}
+plot(V2, V1)
+abline(gpa_reg)
+
+# The estimated regression function does appear to fit the data however there are many outliers.  
+```
+#### c. 	Obtain a point estimate of the mean freshman GPA for students with ACT test score X = 30.
+```{r}
+
+predict(gpa_reg, data.frame(V2= 30))
+```
+
+#### d.	What is the point estimate of the change in the mean response when the entrance test score increases by one point?
+When the mean test score increases by one point the average gpa increases by .03883
+
+#### e. 	Obtain the residuals e_i.  Show that ∑_(i=1)^n▒〖e_i=0〗  and find ∑_(i=1)^n▒〖e_i〗^2 . 
+```{r}
+sum(resid(gpa_reg))
+# very close to zero
+
+sum((resid(gpa_reg))^2)
+# the sum of all residuals squared is 45.81761. This is also called SSE or error sum of squares
+```
+#### f. Obtain point estimates of σ2 and σ. In what units is each of them expressed (include those units with your answers)?
+```{r}
+# Error mean square= SSE/n-2
+(sum((resid(gpa_reg))^2)) /(120-2)
+# estimates of variance squared =.3883, gpa squared
+
+# Standard Error of Estimate
+sqrt((sum((resid(gpa_reg))^2)) /(120-2))
+# estimates of variance = .623 gpa
+```
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,108 @@
+---
+title: "homework_2"
+author: "Brooke Wheeler"
+date: "1/21/2022"
+output: pdf_document
+---
+
+# 5. 
+```{r}
+library(tidyverse)
+library(fastGraph)
+
+qt(.05,55, lower.tail = TRUE)
+pt(-1.673, 9.4)
+```
+
+# 5
+```{r}
+qf(.05, 13,19, lower.tail=TRUE) 
+pf(.4047, 13,19, lower.tail = FALSE)
+
+((13*25) + (19*46.24))/32
+
+((1/14) + (1/20)) * 37.611
+sqrt(4.567)
+2.4 / 2.137054
+
+pt(-1.123, 32, lower.tail = TRUE)
+```
+
+# 7 
+```{r}
+homes <- read.table("../../Data/HOME_SALES.csv", header = TRUE, sep = ",")
+attach(homes)
+```
+a.	The sales price depends on the air conditioner in the house. 
+```{r}
+# null: mean sale price for AC = mean sale price NO AC
+# Alt.: mean sale prices are not equal
+
+#test for equal variances
+var.test(SALES_PRICE[AIR_CONDITIONER=="YES"],SALES_PRICE[AIR_CONDITIONER=="NO"])
+# since p-value is less than .05 we reject the null hypothesis that the variances are equal. This means we will use a t.test assuming the variances are not equal. 
+
+t.test(x= SALES_PRICE[AIR_CONDITIONER=="YES"], y= SALES_PRICE[AIR_CONDITIONER=="NO"], alternative = "two.sided", mu=0, var.equal = FALSE, conf.level = .95)
+# since p-value is less than .05 we reject the null hypothesis that the mean sale prices for houses with AC and without AC are equal. 
+```
+
+b.	On the average, homes with an air conditioner are more expensive.
+```{r}
+# null: mean sale price with AC = mean sale price without AC
+# alt.: mean sale price with AC > mean sale price without AC
+
+t.test(x= SALES_PRICE[AIR_CONDITIONER=="YES"], y= SALES_PRICE[AIR_CONDITIONER=="NO"], alternative = "greater", mu=0, var.equal = TRUE, conf.level = .95)
+# since p-value is less than .05 we reject the null hypothesis that the mean sale prices of housing with AC are the same as those without AC. This means we have statistically significant evidence to say homes that have an AC are more expensive than those without. 
+```
+
+c.	On the average, homes with an air conditioner are larger.
+```{r}
+#  null: mean square feet home with AC = mean square feet with homes without AC
+# alt.: mean square feet home with AC > mean square feet with homes without AC
+
+#test for equal variances
+var.test(FINISHED_AREA[AIR_CONDITIONER=="YES"],FINISHED_AREA[AIR_CONDITIONER=="NO"])
+# since p-value is less than .05 we reject the null hypothesis that the variances are equal. This means we will use a t.test assuming the variances are not equal. 
+
+t.test(x= FINISHED_AREA[AIR_CONDITIONER=="YES"], y= FINISHED_AREA[AIR_CONDITIONER=="NO"], alternative = "greater", mu=0, var.equal = FALSE, conf.level = .95)
+# since p-value is less than .05 we reject the null hypothesis homes with an AC are larger than homes without an AC.
+```
+
+d.	The sales price depends on the proximity to a highway.
+```{r}
+# null: mean sale price close to hw = mean sale price not close to hw
+# alt.: mean sale price close to hw is not equal mean sale price not close to hw
+
+#test for equal variances
+var.test(SALES_PRICE[HIGHWAY=="YES"],SALES_PRICE[HIGHWAY=="NO"])
+# since p-value is greater than .05 we fail to reject the null hypothesis that the variances are equal. This means we will use a t.test assuming the variances are equal. 
+
+t.test(x= SALES_PRICE[HIGHWAY=="YES"], y= SALES_PRICE[HIGHWAY=="NO"], alternative = "two.sided", mu=0, var.equal = TRUE, conf.level = .95)
+# since p-value is greater than .05 we fail to reject the null hypothesis that the mean sale prices for houses close to the highway are the same to homes not close to the highway. 
+```
+
+e.	On the average, homes are cheaper when they are close to a highway.
+```{r}
+# null: mean sale price close to hw = mean sale price not close to hw
+# alt.: mean sale price close to hw < mean sale price not close to hw
+
+
+t.test(x= SALES_PRICE[HIGHWAY=="YES"], y= SALES_PRICE[HIGHWAY=="NO"], alternative = "less", mu=0, var.equal = TRUE, conf.level = .95)
+# since p-value is greater than .05 we fail to reject the null hypothesis that the mean sale prices for houses close to the highway are the same to homes not close to the highway. 
+```
+
+f.	On the average, homes are cheaper when they are far from a highway.
+```{r}
+# null: mean sale price close to hw = mean sale price not close to hw
+# alt.: mean sale price close to hw > mean sale price not close to hw
+
+
+t.test(x= SALES_PRICE[HIGHWAY=="YES"], y= SALES_PRICE[HIGHWAY=="NO"], alternative = "greater", mu=0, var.equal = TRUE, conf.level = .95)
+# since p-value is greater than .05 we fail to reject the null hypothesis that the mean sale prices for houses close to the highway are the same to homes not close to the highway. 
+```
+
+
+
+
+
+

@@ -1,0 +1,68 @@
+---
+title: "homework4"
+author: "Brooke Wheeler"
+date: "2/3/2022"
+output: pdf_document
+---
+```{r}
+library(tidyverse)
+```
+
+## Part 2
+# 4. 
+```{r}
+.0052^2
+
+
+# a. 
+qt(.975,28)
+# c. 
+2*(pt(9.06,28,lower.tail = FALSE))
+```
+
+# 5. 
+```{r}
+pt(-43041176,178)
+```
+
+# Part 3: Mini project
+
+```{r}
+gpa <- read.table("CH01PR19-1.txt")
+attach(gpa)
+# x= ACT scores y=gpa at end of freshman year
+```
+
+## a. 	Obtain a 99% confidence interval for β_1. Does it include zero? Why might the director of admissions be interested in whether the confidence interval includes zero?
+```{r}
+gpa_reg <- lm(V1 ~ V2, data = gpa)
+gpa_reg
+
+# the intercept= 2.11405
+# the slope is .03883
+
+confint(gpa_reg, level = .99)
+# The 99% confidence interval for B_1 is .00538 to .07227. The confidence interval does not include zero meaning that we reject the null hypothesis that there is no linear association between ACT scores and gpa at the end of freshman year. The director of admission would want to see if students gpa's are effected by their performance on the ACT, they then could use those scores to predict gpa of students. 
+
+```
+
+## b. 	Test whether or not a linear association exists between student’s ACT score (X) and GPA at the end of the freshman year (Y). Use a level of significance of 0.01. State the hypotheses,  p-value, decision, and conclusion.
+```{r}
+# null hypothesis: slope=0
+# alt. hypothesis: slope does not = 0
+# two tail
+summary(gpa_reg)
+
+2*(pt(165.55, 118, lower.tail = FALSE))
+```
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,62 @@
+---
+title: "Homework_1"
+author: "Brooke Wheeler"
+date: "1/13/2022"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+library(tidyverse)
+```
+
+# 6 Plot the density curve.  Keep in mind that the values of the random variable here must be positive.  Make sure that the x-axis represents F values between 0 and 7 and the y-axis is labeled “density.” 
+```{r}
+curve(df(x, df1 = 11, df2 = 5), from = 0, to = 7, ylab = "density")
+```
+# 7 	Find the median value of F. (Hint: keep in mind which percentile the median corresponds to.) Report your answer as F(p;df1,df2)=q, filling in values for p,df1,df2 and q.
+
+# qt gives the quartile value, pt give the area under the curve
+# q is the F value while p is the prob under the curve
+```{r}
+qf(.5, 11, 5)
+
+# F(p;df1,df2)=q  
+# F(.5; 11, 5)= 1.08
+# There is a 50% chance that an F(11, 5) value will be lower than q=1.08
+```
+
+# 8 	4% of values will fall above which value of F? Report your as F(p;df1,df2)=q.
+```{r}
+qf(.96, 11, 5)
+
+# F(p;df1,df2)=q
+# F(.96;11,5)= 5.25
+# 4% of values will fall above q=5.25
+```
+
+# 9 	Find P(F(11,5)≤3).
+```{r}
+pf(3,11,5)
+
+# the probability that the value will be below 3 is 88%.
+```
+ 
+# 10 	Find P(F(11,5)≥5.25).
+```{r}
+pf(5.25, 11,5)
+1-.96
+
+# The probability that the value will fall above 5.25 is 4%
+```
+
+
+
+
+
+
+
+

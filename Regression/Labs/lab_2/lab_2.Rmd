@@ -1,0 +1,81 @@
+---
+title: "lab_two"
+author: "Brooke Wheeler"
+date: "1/19/2022"
+output:
+  word_document: default
+  pdf_document: default
+---
+```{r}
+library(tidyverse)
+```
+# Part One: Critical Values and confidence intervals 
+
+
+## 1.Find the following critical values and plot the distribution (with shaded area) to accurately represent the confidence level.  
+```{r}
+library(fastGraph)
+shadeDist(c(qt(.005,83), qt(.995,83)), "dt", 83, lower.tail = FALSE, main = "C=0.99")
+```
+##  2. 	Use the qt() function to find the exact critical values shown in #1.  Report them as t(p;df)=q.
+```{r}
+qt(.005,83)
+qt(.995, 83)
+# t(.005;83)=-2.64  &  t(.995;83)=2.6
+
+```
+
+## Part Two: T tests and F tests
+
+# 3. save data set as heights 
+```{r}
+getwd()
+heights <-read.table("../Data/fballvsbball.csv", header = TRUE, sep = ",")
+attach(heights)
+```
+# 4. Check to see which t test will be appropriate.
+```{r}
+
+var.test(HtFt,HtBk)
+# Since the p-value is 0.3343 we fail to reject the null hypothesis that the variances are equal. Since 1 falls into the interval we can't conclude there is a statistically sig. difference between the variances. This means that we will use a test test that assumes the variances of the two samples are equal. 
+```
+
+## 5.	Based on your conclusions from #4, use R to run the appropriate t test. Carefully think about what your hypotheses should be.  Type ?t.test to find out more about the arguments for t.test().  Paste your results below.
+```{r}
+# Null hypothesis: means are equal Ft =Bk
+# Alt. Hypothesis: Ft < BK
+
+t.test(x= heights$HtFt, y= heights$HtBk, c("less"), m= 0, var.equal = TRUE)
+
+# p-value=.0002039 , reject the null hypothesis
+
+```
+## 6. Conclusions
+We reject the null hypothesis that the mean heights of both basketball and football players are equal at levels of .0002. Meaning that there is statistically significant evidence that football players are not the same height as basketball players. 
+
+## 7. 99% confidence interval
+```{r}
+t.test(x= heights$HtFt, y= heights$HtBk, c("less"), m= 0, var.equal = TRUE, conf.level = 0.99)
+
+
+```
+
+## 8. 99% confidence interval manually
+
+```{r}
+mean(heights$HtFt)
+mean(heights$HtBk, na.rm = TRUE)
+
+sd(heights$HtFt)
+sd(heights$HtBk, na.rm = TRUE)
+
+# critical t values from above -2.64, 2.64
+
+```
+
+
+
+
+
+
+

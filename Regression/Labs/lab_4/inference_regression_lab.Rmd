@@ -1,0 +1,81 @@
+---
+title: "inference_regression_lab"
+author: "Brooke Wheeler"
+date: "2/2/2022"
+output:
+  word_document: default
+  html_document:
+    df_print: paged
+  pdf_document: default
+---
+
+```{r}
+library(tidyverse)
+women <- read.csv("Mass_Calorie_Data-1.csv", header = TRUE, sep = ",")
+attach(women)
+```
+
+# we want to fit a regression model that predicts Calorie Rate (RATE) in calories per day based on Lean Body Mass (LBM) in kg.
+
+# 1.	Start by fitting the regression model.  Find the values of the least-squares estimators (regression coefficients) and write the equation of the LSR line.
+```{r}
+# RATE = y
+# LBM = X
+
+# fitting a regression model
+reg <- lm(RATE ~ LBM)
+
+reg
+
+# least square estimators: -81.433
+
+# Least squares regression line: y= -81.433 + .159x
+```
+
+# 2. Plot the regression line (in a color other than black) with the data.  Include the plot here.  
+```{r}
+reg
+plot(LBM, RATE)
+abline(reg, col = "red")
+```
+# 3. 	Find a 98% confidence interval for the slope, β_1.  Paste your results below.  Verify that your lower and upper limits match those from the notes.
+```{r}
+confint(reg, level = .98)
+
+# 98% confidence interval for slop of B_1 is 12.49043 to 35.5617
+```
+
+# 4. 	What does the 98% confidence interval for the intercept, β_0, show?  State the lower and upper limits and discuss what they mean in context.
+```{r}
+confint(reg, level = .98)
+
+# the 98% confidence interval for the intercept means that with 98% confidence we estimate that the average (y) value of the intercept is between -301.01781 and 703.3410 meaning that when x is zero (if a women was to weigh 0 kg) then the rate of calories burned per day is between -301.01781 and 703.3410
+```
+
+# 5. 	Is there a positive association between LBM and Calorie Rate?  Use α=0.02. State the hypotheses.  Provide the value of s(b_1), the t statistic and p-value.  Do they match those found in the notes?  Explain.
+```{r}
+# null hyp:  slope = 0
+# alt. hyp:  slope >0
+
+summary(reg)
+# s(b1)= 4.174
+
+# looking at the confidence interval for number 3 we found our 98% confidence interval for slop of B_1 is 12.49043 to 35.5617. Since zero is not in this interval we know we can reject the null hypothesis at level alpha=.02 and support that there is a positive association between LBM and calorie rate.
+
+```
+
+# 6. Note the value of “Residual standard error” shown in the summary of the regression results. What does this correspond to? (Hint: Look in the notes.) Based on this value, what is the value of the MSE?
+```{r}
+summary(reg)
+# residual standard error is 95.08
+# the residual standard error measures the average distance of residuals from the regression line. The residual standard eror corresponds to RMSE. This means that on average the residual is 95.08 away from the regression line. 
+
+# MSE is 9040 calories per day. RMSE= 95.08
+
+```
+
+
+
+
+
+

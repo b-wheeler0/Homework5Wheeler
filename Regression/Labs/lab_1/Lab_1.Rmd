@@ -1,0 +1,86 @@
+---
+title: "Lab_1"
+author: "Brooke Wheeler"
+date: "1/12/2022"
+output:
+  pdf_document: default
+  word_document: default
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+```{r}
+library(tidyverse)
+```
+
+# Part One Working with Probability Density Functions
+
+## 1 Plot the density function for the t-distribution with 44 degrees of freedom, or t(44).
+```{r}
+curve(dt(x,44), from = -4, to = 4, ylab = "density")
+```
+
+## 2. 	Find the 75th percentile for the t-distribution with 44 degrees of freedom (df=44).  Report your answer as t(p;df)=q, filling in values for p,df and q.
+
+```{r}
+qt(p= .75, df= 44)
+
+# t(.75;44)=.680
+```
+
+## 3. 	Consider a t-distribution with df=44.  96% of values will fall between which two values of t (that is find the values that satisfy P(______<t(44)<______=0.96)? Report both answers as t(p;df)=q.
+
+```{r}
+qt(p= .02, df= 44)
+# t(.02;44)=-2.11
+
+qt(p= .98, df= 44)
+#t(.98;44)=2.11
+
+# P(-2.11 <t(44)< 2.11= .96)
+```
+
+## 4. 	Consider a t-distribution with df=44.  Find P(t(44)≤-1.5).
+```{r}
+pt(q=-1.5, df=44)
+```
+
+## 5. 	Consider a t-distribution with df=44.  Find P(t(44)≥2).
+```{r}
+pt(q=2, df= 44)
+```
+
+
+# Part 2: Descriptive Statistics and Basic Graphs
+
+```{r}
+getwd()
+nationals <- read.table("../Data/nationalsdata2014.csv", header = TRUE, sep = ",")
+
+nationals %>%
+  select(Salary)  -> salary
+salary
+```
+
+## histogram 
+```{r}
+summary(salary)
+
+hist(nationals$Salary, xlab = "Salary (USD)", main = "Histogram of 2014 Salaries")
+```
+
+
+## boxplot
+
+```{r}
+
+boxplot(nationals$Salary, horizontal = TRUE, main = "Boxplot of 2014 Salaries")
+```
+
+
+
+
+
